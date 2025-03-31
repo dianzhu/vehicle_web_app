@@ -1,7 +1,10 @@
 # Local Setup
 
 ***
-1. Set up MySQL with username and paswword, then create database called cs6400_app in MySQL
+1. Set up MySQL with username and paswword, then create database called cs6400_app in MySQL:
+
+   CREATE DATABASE cs6400_app
+   
 2. Create and activate venv
 3. Create `.env` file and enter variables:
    
@@ -13,10 +16,10 @@
    
    DB_PASS=your mysql password
    
-5. Install dependencies `pip install -r req.txt`
-6. Run db init `flask --app app init-db`
-7. Run flask app `flask --app app run`
-8. The app will be running on http://127.0.0.1:5000
+4. Install dependencies `pip install -r req.txt`
+5. Run db init `flask --app app init-db`
+6. Run flask app `flask --app app run`
+7. The app will be running on http://127.0.0.1:5000
 
 ***
 ## Notes
