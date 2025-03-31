@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      <h2>Vehicle Search</h2>
+      <div class="d-flex flex-row">
+        <!-- Display total vehicles for sale -->
+        <p class="small pr-1">{{ total_vehicles_for_sale }} Vehicles for sale</p>
+        {% if g.user and (g.user['ManagerUser'] or g.user['InventoryClerkUser']) %}
+          <p class="small"> | {{ vehicles_with_parts_not_installed }} Vehicles with parts on order</p>
+        {% endif %}
+      </div>
+
+  <form method="get" action="{{ url_for('vehicle.vehicle_results') }}">
+    {% if g.user %}
+      <label for="vin">VIN:</label>
+      <input type="text" id="vin" name="vin">
+    {% endif %}
+    {% for form_value in form_values.keys() %}
+      <label class="mt-3" for="{{ form_values[form_value][0] }}">{{ form_value }}:</label>
+      <select id="{{ form_values[form_value][0] }}" name="{{ form_values[form_value][0] }}">
+        <option value="">--Select {{ form_value }}--</option>
+        {% for value in form_values[form_value][1] %}
+          <option value="{{ value[0] }}">{{ value[0] }}</option>
+        {% endfor %}
+      </select>
+    {% endfor %}
+      <label class="mt-3" for="description">Keyword:</label>
+      <input type="text" id="description" name="description">
+      {% if g.user and g.user['ManagerUser'] %}
+        <label for="vehicle_filter">Vehicle Filter:</label>
+        <select id="vehicle_filter" name="vehicle_filter">
+          <option value="all">All Vehicles</option>
+          <option value="sold">Sold Vehicles</option>
+          <option value="unsold">Unsold Vehicles</option>
+        </select>
+      {% endif %}
+      <button class="mt-3" type="submit">Search</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Seller History Report{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A list of all sellers with the number of vehicles, average number of parts, and the cost of those vehicles</h6>
+  {% if sellers %}
+   <br>
+    <table>
+      <tr align="center">
+        <th>Seller</th>
+        <th>Number of Vehicles</th>
+        <th>Avg Purchase Value</th>
+        <th>Avg Number of Parts</th>
+        <th>Avg Total Cost of Parts</th>
+      </tr>
+      {% for seller in sellers %}
+        {% if seller.IsFlaggedSeller == 1 %}
+          <tr bgcolor ="red">
+        {% else %}
+          <tr>
+        {% endif %}
+            <td>{{ seller.SellerName }}</td>
+            <td align="right">{{ seller.NumberOfVehiclesSold }}</td>
+            <td align="right">{{ "${:,.2f}".format(seller.AvgPurchaseValue) }}</td>
+            <td align="right">{{ seller.AvgNumberOfParts }}</td>
+            <td align="right">{{ "${:,.2f}".format(seller.AvgTotalCostOfParts) }}</td>
+          </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p> There are no sellers that currently match your criteria</p>
+  {% endif %}
+
+<br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+
+{% endblock %}

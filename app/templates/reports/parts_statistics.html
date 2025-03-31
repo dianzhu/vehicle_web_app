@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Parts Statistics{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A list of vendors and the quantity of parts received and the associated spend</h6>
+  <br>
+  {% if parts_stats %}
+    <table>
+      <tr align="center">
+        <th>Vendor</th>
+        <th>Number of Parts</th>
+        <th>Total Spend</th>
+      </tr>
+      {% for vendor in parts_stats %}
+        <tr>
+          <td align="left">{{ vendor.VendorName }}</td>
+          <td align="right">{{ vendor.Quantity }}</td>
+          <td align="right">{{ "${:,.2f}".format(vendor.TotalSpend) }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p> There are vehicle types that currently match your criteria</p>
+  {% endif %}
+
+<br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+{% endblock %}

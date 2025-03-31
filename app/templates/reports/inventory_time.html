@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Average Time in Inventory{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A list of vehicle types and their average time spent in inventory</h6>
+  {% if inventory %}
+   <br>
+    <table>
+      <tr align="center">
+        <th>Vehicle Type</th>
+        <th>Avg Days in Inventory</th>
+      </tr>
+      {% for type in inventory %}
+        <tr>
+          <td align="left">{{ type.VehicleType }}</td>
+          <td align="right">{{ type.AvgDaysInInventory }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p> There are vehicle types that currently match your criteria</p>
+  {% endif %}
+
+<br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+
+{% endblock %}

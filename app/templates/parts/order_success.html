@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Parts Order Successfully Created{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <p>Your parts order number is {{ order_number }} </p>
+    <p>Click <a href="{{ url_for('index.index') }}">here</a> to return to the home page.
+{% endblock %}

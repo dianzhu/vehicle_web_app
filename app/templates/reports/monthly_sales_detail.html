@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Monthly Sales Report - {{ date }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A list of sales associates and their contribution to the monthly income</h6>
+  <br>
+    {% if sales_data %}
+        <table>
+            <tr align="center">
+                <th>Sales Person</th>
+                <th>Total Number of Vehicles Sold</th>
+                <th>Total Sales Income</th>
+            </tr>
+            {% for row in sales_data %}
+                <tr>
+                    <td>{{ row.FirstName }} {{ row.LastName }}</td>
+                    <td align="right">{{ row.VehicleNum }}</td>
+                    <td align="right">{{ "${:,.2f}".format(row.SalesIncome ) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No Report</p>
+    {% endif %}
+<br>
+<span><a href="{{ url_for('reports.monthly_sales_report_summary')}}">Back to Sales Report Summary</a></span><br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+{% endblock %}

@@ -1,0 +1,27 @@
+UserName	Password	FirstName	LastName	roles
+owner	owner	O	Owner	inventory clerk,salesperson,manager
+user01	pass01	Valentine	Rhymes	salesperson
+user02	pass02	Bulah	Heintzman	manager
+user03	pass03	Theodora	Ehmann	salesperson
+user04	pass04	Raul	Hochard	inventory clerk
+user05	pass05	Xuan	Mclaird	inventory clerk
+user06	pass06	Carin	Saylors	inventory clerk
+user07	pass07	Jesusita	Duenas	salesperson
+user08	pass08	Reita	Menter	salesperson
+user09	pass09	Beckie	Meinerding	inventory clerk
+user10	pass10	Sue	Wieser	inventory clerk
+user11	pass11	Iluminada	Husser	inventory clerk
+user12	pass12	James	Parlato	salesperson
+user13	pass13	Arminda	Lindall	inventory clerk
+user14	pass14	Malcolm	Stem	salesperson
+user15	pass15	Raul	Colaizzo	inventory clerk
+user16	pass16	Candida	Pugh	inventory clerk
+user17	pass17	Sharee	Gillaspie	manager
+user18	pass18	Raina	Drymon	inventory clerk
+user19	pass19	Peggie	Toelkes	inventory clerk
+user20	pass20	Luisa	Ruta	salesperson
+user21	pass21	Thaddeus	Malvin	salesperson
+user22	pass22	Clorinda	Chickering	inventory clerk
+user23	pass23	Cheryl	Maillard	salesperson
+user24	pass24	Raylene	Galam	manager
+user25	pass25	Loreta	Vanausdal	salesperson

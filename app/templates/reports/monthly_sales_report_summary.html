@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Monthly Sales Report Summary{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A breakdown of Income by month in descending order, with drilldown to details</h6>
+  <br>
+    {% if sales_data %}
+        <table>
+            <tr>
+                <th>Sales Year</th>
+                <th>Sales Month</th>
+                <th>Total Vehicles Sold</th>
+                <th>Total Sales Income</th>
+                <th>Total Net Income</th>
+                <th>Drill Down</th>
+            </tr>
+            {% for row in sales_data %}
+                <tr>
+                    <td>{{ row.Year }}</td>
+                    <td>{{ row.MonthName }}</td>
+                    <td align="right">{{ row.VehicleNum }}</td>
+                    <td align="right">{{ "${:,.2f}".format(row.SalesIncome ) }}</td>
+                    <td align="right">{{ "${:,.2f}".format(row.NetIncome) }}</td>
+                    <td align="center">
+                        <a href="{{ url_for('reports.monthly_sales_detail', month=row.Month, year=row.Year) }}">
+                            <img src="{{ url_for('static', filename='icons/link-icon.svg') }}">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No Report</p>
+    {% endif %}
+
+<br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+
+{% endblock %}

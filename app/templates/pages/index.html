@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Search Vehicles{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% if g.user %}
+      <p>{{ g.user['UserName'] }} is logged in.</p>
+      {% if g.user['ManagerUser'] %}
+          <a class="action" href="{{ url_for('reports.reports_main') }}">See Reports</a><br>
+      {% endif %}
+ {% if g.user['SalesPersonUser'] %}
+        <a class="action" href="{{ url_for('salesorder.add') }}">Add Sales Order</a>
+    {% endif %}
+  {% else %}
+    <p>Welcome to the index page.</p>
+  {% endif %}
+  <form method="post">
+    <input name="keyword" id="keyword" required>
+    <input type="submit" value="Search">
+  </form>
+{% endblock %}

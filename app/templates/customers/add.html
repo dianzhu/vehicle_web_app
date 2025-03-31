@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block script %}
+    <script src="{{url_for('static', filename='js/addCustomer.js')}}"></script>
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}Add Customer{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" id="customer">
+      <div class="business-type">
+        <input type="radio" id="person" name="select" onclick="onIndividualRadioButtonClick()" value="Person" checked required>
+        <label for="person">Individual</label>
+        <input type="radio" id="business" name="select" onclick="onBusinessRadioButtonClick()" value="Business">
+        <label for="business">Business</label>
+      </div>
+    <label id="customerIdLabel" for="customerID">Driver's License Number</label>
+    <div>
+      <input name="customerID" id="customerID" required>
+    </div>
+    <div id="businessInfo" class="inner-form" hidden>
+        <label for="companyName" >Company Name*</label>
+        <input name="companyName" id="companyName">
+        <label for="firstName">Primary Contact First Name*</label>
+        <input name="firstName" id="firstName">
+        <label for="lastName">Primary Contact Last Name*</label>
+        <input name="lastName" id="lastName">
+        <label for="title">Title*</label>
+        <input name="title" id="title">
+    </div>
+    <div id="individualInfo"  class="inner-form">
+        <label for="firstName" >First Name*</label>
+        <input name="firstName" id="firstName" required >
+        <label for="lastName" >Last Name*</label>
+        <input name="lastName" id="lastName" required >
+    </div>
+    <label for="phoneNumber">Phone Number*</label>
+    <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10}" required>
+    <label for="email">Email</label>
+    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" id="email">
+    <label for="customerStreet">Street*</label>
+    <input name="customerStreet" id="customerStreet" required>
+    <label for="customerCity">City*</label>
+    <input name="customerCity" id="customerCity" required>
+    <label for="customerState">State*</label>
+    <div>
+      <input name="customerState" id="customerState" maxlength="2" required>
+      <small>Ex: GA</small>
+    </div>
+    <label for="customerPostalCode">Postal Code*</label>
+    <input name="customerPostalCode" id="customerPostalCode" required>
+    <input type="submit" value="Submit">
+  </form>
+
+{% endblock %}

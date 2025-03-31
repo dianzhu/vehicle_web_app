@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add Sales Order{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <label for="buyer">Customer ID </label>
+        <input name="buyer" id="buyer" required value="{{ customerID }}"><br>
+        <a href="{{ url_for('customers.search', to=request.path) }}">Search Customer</a>
+        <label for="vin">Vin</label><br>
+        <input name="vin" id="vin" value="{{ vin }}" required disabled><br>
+        <label for="salesprice">Sales Price</label><br>
+        <input type="txt" name="salesprice" id="salesprice" value="{{  '${:,.2f}'.format(sales_price) }}" required disabled><br>
+        <label for="sales_person">Sales Person Name</label><br>
+        <input name="sales_person" id="sales_person" value="{{ sales_person }}" required disabled><br>
+        <label for="salesdate">Sales Date</label><br>
+        <input type="date" name="salesdate" id="salesdate" required><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

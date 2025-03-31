@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Search Results ({{ vehicles|length }})</h2>
+  {% if vehicles %}
+    <table>
+      <tr>
+        <th>VIN</th>
+        <th>Type</th>
+        <th>Manufacturer</th>
+        <th>Model Year</th>
+        <th>Model Name</th>
+        <th>Fuel Type</th>
+        <th>Color</th>
+        <th>Mileage</th>
+        <th>Sales Price</th>
+      </tr>
+      {% for vehicle in vehicles %}
+        <tr>
+          <td><a href="{{ url_for('vehicle.vehicle_details', vin=vehicle.VIN) }}">{{ vehicle.VIN }}<a/></td>
+          <td>{{ vehicle.Type }}</td>
+          <td>{{ vehicle.ManufacturerName }}</td>
+          <td>{{ vehicle.ModelYear }}</td>
+          <td>{{ vehicle.ModelName }}</td>
+          <td>{{ vehicle.FuelType }}</td>
+          <td>{{ vehicle.Color }}</td>
+          <td>{{ "{:,.0f}".format(vehicle.Mileage) }}</td>
+          <td>{{ "${:,.2f}".format(vehicle.SalesPrice) }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>Sorry, it looks like we don’t have that in stock!</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Reports{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+      <ul>
+          <li> <a class="action" href="{{ url_for('reports.seller_history') }}">Seller History Report</a></li>
+          <li> <a class="action" href="{{ url_for('reports.time_in_inventory') }}">Average Time In Inventory Report</a></li>
+          <li> <a class="action" href="{{ url_for('reports.price_per_condition') }}">Price Per Condition Report</a></li>
+          <li> <a class="action" href="{{ url_for('reports.parts_statistics') }}">Parts Statistics Report</a></li>
+          <li> <a class="action" href="{{ url_for('reports.monthly_sales_report_summary') }}">Monthly Sales Report</a></li>
+      </ul>
+
+{% endblock %}

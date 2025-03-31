@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Search Vendor{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form  method="post" >
+    <label for="vendorName">Vendor Name</label>
+    <input name="vendorName" id="vendorName" required>
+    <input type="submit" name = "action" value="Submit">
+  </form>
+  <div id="vendor_info">
+    {% if vendors %}
+    <h3>Search Result</h3>
+    <form action=""></form>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Select</th>
+          <th scope="col">Vendor Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Street</th>
+          <th scope="col">City</th>
+          <th scope="col">State</th>
+          <th scope="col">Postal Code</th>
+        </tr>
+      <thead>
+      <form action="{{ url_for('parts.selectVendor', to=request.args.get('to')) }}" method="post">
+        {% for vendor in vendors %}
+        <tr>
+          <td scope="row"><input value={{vendor.VendorName}} id={{vendor.VendorName}} name="select" type="radio" required/></td>
+          <td>{{vendor.VendorName}}</td>
+          <td>{{vendor.VendorPhoneNumber}}</td>
+          <td>{{vendor.StreetAddress}}</td>
+          <td>{{vendor.City}}</td>
+          <td>{{vendor.State}}</td>
+          <td>{{vendor.PostalCode}}</td>
+        </tr>
+        {% endfor %}
+      <input type="submit" name = "action" value="Select" >
+    </form>
+    </table>
+    {% else %}
+    <a href="{{ url_for('parts.addVendor', to=request.args.get('to')) }}">Add Vendor</a>
+    {% endif%}
+  </div>
+{% endblock %}

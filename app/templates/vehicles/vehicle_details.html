@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="mt-4">{{ vehicle.ModelYear }} {{ vehicle.ManufacturerName }}  {{ vehicle.ModelName }}</h2>
+    {% if is_salesperson %}
+    <!-- Salesperson-specific details -->
+      <!-- Check if the vehicle is available for sale -->
+      {% if not vehicle_has_pending_parts and not vehicle.SoldDate %}
+        <a href="{{ url_for('vehicle.add_sales_order', vin=vehicle.VIN, sales_price=sales_price) }}">Initiate Sale</a>
+      {% elif vehicle_has_pending_parts %}
+        <p>This vehicle is currently not available for sale due to pending parts.</p>
+      {% endif %}
+    {% endif %}
+  <!-- Common Vehicle Information -->
+  <div class="list-group">
+    <div class="list-group-item flex-column align-items-start border-0">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-3">Specifications</h5>
+      </div>
+      <ul class="list-group ">
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>VIN</p><p>{{ vehicle.VIN }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Type</p><p>{{ vehicle.Type }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Fuel Type</p><p>{{ vehicle.FuelType }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Colors</p><p>{{ vehicle.Color }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Mileage</p><p>{{ vehicle.Mileage }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Sales Price</p><p>{{ "${:,.2f}".format(sales_price) }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Description</p><p>{{ vehicle.Description }}</p></li>
+      </ul>
+    </div>
+    {% if is_manager or is_clerk %}
+    <div class="list-group-item list-group-item flex-column align-items-start border-0">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-3">Purchase Information</h5>
+      </div>
+      <ul class="list-group ">
+        {% if is_manager %}
+        <li class="list-group-item d-flex flex-row justify-content-between">
+          <p>Seller Info</p>
+          <p>
+            {% for seller_info in vehicle.PurchasedFrom %}
+              {{ seller_info }}<br/>
+            {% endfor %}
+          </p>
+        </li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Purchase Date</p><p>{{ vehicle.PurchaseDate }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Entered By (Clerk)</p><p>{{ vehicle.EnteredBy }}</p></li>
+        {% endif %}
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Purchase Price</p><p>{{ "${:,.2f}".format(vehicle.PurchaseValue) }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Total Parts Cost</p><p>{{ "${:,.2f}".format(total_parts_price) }}</p></li>
+      </ul>
+    </div>
+    {% if is_manager and vehicle.SoldTo %}
+    <div class="list-group-item list-group-item flex-column align-items-start border-0">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-3">Sale Information</h5>
+      </div>
+      <ul class="list-group ">
+        <li class="list-group-item d-flex flex-row justify-content-between">
+          <p>Purchaser Info</p>
+          <p>
+            {% for buyer_info in vehicle.SoldTo %}
+              {{ buyer_info }}<br/>
+            {% endfor %}
+          </p>
+        </li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Sales Date</p><p>{{ vehicle.SoldDate }}</p></li>
+        <li class="list-group-item d-flex flex-row justify-content-between"><p>Sales Person</p><p>{{ vehicle.SoldBy }}</p></li>
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- Parts Section for Inventory Clerks -->
+    <div class="w-100 d-flex flex-row justify-content-between mt-3 mb-1">
+      <h5 class="pl-2">Parts Details</h5>
+      <!-- Link to Add Part Order -->
+      {% if is_clerk %}
+      <a class="pr-2" href="{{ url_for('parts.order', vin=vehicle.VIN) }}">Add Parts Order</a>
+      {% endif %}
+    </div>
+
+    {% if is_clerk %}
+      <form method="post">
+    {% endif %}
+    {% if parts %}
+    <table>
+      <tr>
+        <th>Part #</th>
+        <th>Description</th>
+        <th>Vendor</th>
+        <th>Cost</th>
+        <th>Status</th>
+      </tr>
+      {% for part in parts %}
+        <tr>
+          <td>{{ part.PartNumber }}</td>
+          <td>{{ part.Description }}</td>
+          <td>{{ part.VendorName  }}</td>
+          <td>{{ "${:,.2f}".format(part.Price) }}</td>
+          {% if not is_clerk or part.Status == 'installed' %}
+          <td>{{ part.Status }}</td>
+          <!-- Option to Update Part Status and I need help with this section -->
+          {% elif is_clerk and part.Status != 'installed' %}
+          <td>
+              <select name="{{ part.VIN + ',' + part.POSequence + ',' + part.PartNumber }}" value="{{ part.Status }}">
+                {% if part.Status == 'ordered' %}
+                  <option value="ordered">Ordered</option>
+                  <option value="received">Received</option>
+                  <option value="installed">Installed</option>
+                {% endif %}
+                {% if part.Status == 'received' %}
+                  <option value="received">Received</option>
+                  <option value="installed">Installed</option>
+                {% endif %}
+              </select>
+          </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+        <p> No parts order history. </p>
+    {% endif %}
+    {% if is_clerk and vehicle_has_pending_parts %}
+      <div class="w-100 d-flex flex-row-reverse">
+        <button class="btn btn-md btn-info my-3" type="submit">Update Status</button>
+      </div>
+    </form>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}

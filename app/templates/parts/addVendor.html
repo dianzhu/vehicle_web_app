@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add Vendor{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form  method="post">
+    <label for="vendorName">Vendor Name</label>
+    <input name="vendorName" id="vendorName" required>
+    <label for="vendorPhoneNumber">Phone Number</label>
+    <input type="tel" name="vendorPhoneNumber" id="vendorPhoneNumber"  pattern="[0-9]{10}" required>
+    <label for="vendorStreet">Street</label>
+    <input name="vendorStreet" id="vendorStreet" required>
+    <label for="vendorCity">City</label>
+    <input name="vendorCity" id="vendorCity" required>
+    <label for="vendorState">State</label>
+    <div>
+      <input name="vendorState" id="vendorState" required>
+      <small>Ex: GA</small>
+    </div>
+    <label for="vendorPostal">Postal Code</label>
+    <input name="vendorPostal" id="vendorPostal" required>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

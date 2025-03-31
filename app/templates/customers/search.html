@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Search Customer{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" id="customer">
+    <label for="customerID">Customer ID</label>
+    <div>
+      <input name="customerID" id="customerID" required>
+      <small>Ex: company: tax ID; individual: driver license.</small>
+    </div>
+    <input type="submit" value="Search">
+  </form>
+  <div >
+    {% if customer %}
+    <h3>Search Result</h3>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Select</th>
+          <th scope="col">Customer Type</th>
+          <th scope="col">CustomerID</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Street</th>
+          <th scope="col">City</th>
+          <th scope="col">State</th>
+          <th scope="col">Postal Code</th>
+
+        </tr>
+      </thead>
+      <form action="{{ url_for('customers.selectCustomer') }}" method="post">
+      <tr>
+        <td scope="row"><input value={{customer.CustomerID}} id={{customer.CustomerID}} name="select" type="radio" /></td>
+        <th>{{customer.CustomerType}}</th>
+        <th>{{customer.CustomerID}}</th>
+        <th>{{customer.EmailAddress}}</th>
+        <th>{{customer.Phone}}</th>
+        <th>{{customer.StreetAddress}}</th>
+        <th>{{customer.City}}</th>
+        <th>{{customer.State}}</th>
+        <th>{{customer.PostalCode}}</th>
+      </tr>
+      <input type="submit" name = "action" value="Select">
+      </form>
+    </table>
+    {% elif failed_search %}
+      <a href="{{ url_for('customers.add', to=request.args.get('to', default=None)) }}">Add Customer</a>
+    {% endif %}
+  </div>
+{% endblock %}

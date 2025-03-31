@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block script %}
+    <script src="{{url_for('static', filename='js/orderPart.js')}}"></script>
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}Add Parts Order{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" id="partsForm">
+    <label for="vin">VIN</label>
+    <input name="vin" id="vin" value = "{{ vin }}" required disabled>
+    <label for="vendorName">Vendor Name</label>
+    <input name="vendorName" id="vendorName" required value="{{ vendorName }}">
+    <a href="{{url_for('parts.searchVendor', to=request.path)}}" >Search Vendor</a>
+    <fieldset id="parts" class="inner-form">
+      <div class="inner-form border p-3" id="firstPart">
+        <label for="partNumber">Part Number</label>
+        <input name="partNumber" id="partNumber" required>
+        <label for="description">Description</label>
+        <input name="description" id="description" required>
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" id="quantity" min="0" required>
+        <label for="status">Status</label>
+        <select name="status" id="status">
+          <option value="ordered">Ordered</option>
+          <option value="received">Received</option>
+          <option value="installed">Installed</option>
+        </select>
+        <label for="price">Price</label>
+        <input name="price" id="price" required>
+      </div>
+      <div class="inner-form border p-3" id="part" hidden>
+        <label for="partNumber">Part Number</label>
+        <input name="partNumber" id="partNumber" required>
+        <label for="description">Description</label>
+        <input name="description" id="description" required>
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" id="quantity" min="0" required>
+        <label for="status">Status</label>
+        <select name="status" id="status">
+          <option value="ordered">Ordered</option>
+          <option value="received">Received</option>
+          <option value="installed">Installed</option>
+        </select>
+        <label for="price">Price</label>
+        <input name="price" id="price" required>
+      </div>
+    </fieldset>
+    <div class="flex flex-row mx-auto">
+      <button id="addPartButton" onclick="onAddPartClick()" class="btn btn-sm btn-primary ms-auto me-2">Add Part</button>
+      <button id="removePartButton" onclick="onRemovePartClick()" class="btn btn-sm btn-danger me-auto" hidden>Remove Part</button>
+    </div>
+    <div>
+      <button class="btn btn-md btn-info" onclick="onFormSubmit()">Submit</button>
+    </div>
+  </form>
+{% endblock %}

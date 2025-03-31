@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Average Price Per Condition{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h6> A matrix showing the average purchase price per condition by vehicle type</h6>
+  {% if prices %}
+  <br>
+    <table>
+      <tr align="center">
+        <th > </th>
+        <th colspan="4" >Vehicle Condition</th>
+      </tr>
+      <tr align="center">
+        <th >Vehicle Type </th>
+        <th>Excellent</th>
+        <th>Very Good</th>
+        <th>Good</th>
+        <th>Fair</th>
+      </tr>
+      {% for price in prices %}
+        <tr>
+          <td align="left">{{ price.VehicleType }}</td>
+          <td align="right">{{ "${:,.2f}".format(price.Excellent) }}</td>
+          <td align="right">{{ "${:,.2f}".format(price.VeryGood) }}</td>
+          <td align="right">{{ "${:,.2f}".format(price.Good) }}</td>
+          <td align="right">{{ "${:,.2f}".format(price.Fair) }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p> There are no vehicle types that currently match your criteria</p>
+  {% endif %}
+
+<br>
+<span><a href="{{ url_for('reports.reports_main')}}">Back to List of Reports</a></span>
+
+{% endblock %}
